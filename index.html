@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Matchmaker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        section {
+            margin: 15px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Matchmaker</h1>
+        <p>Answer these questions to find out if we are compatible.</p>
+
+        <section>
+            <label for="q1">Faith is a strong value of mine:</label>
+            <select id="q1" class="question">
+                <option value="">Select an option</option>
+                <option value="5">Strongly Agree</option>
+                <option value="4">Agree</option>
+                <option value="3">Neither agree nor disagree</option>
+                <option value="2">Disagree</option>
+                <option value="1">Strongly Disagree</option>
+            </select>
+        </section>
+        <section>
+            <label for="q2">I enjoy noise music:</label>
+            <select id="q2" class="question">
+                <option value="">Select an option</option>
+                <option value="5">Strongly Agree</option>
+                <option value="4">Agree</option>
+                <option value="3">Neither agree nor disagree</option>
+                <option value="2">Disagree</option>
+                <option value="1">Strongly Disagree</option>
+            </select>
+        </section>
+        <section>
+            <label for="q3">I enjoy going out:</label>
+            <select id="q3" class="question">
+                <option value="">Select an option</option>
+                <option value="5">Strongly Agree</option>
+                <option value="4">Agree</option>
+                <option value="3">Neither agree nor disagree</option>
+                <option value="2">Disagree</option>
+                <option value="1">Strongly Disagree</option>
+            </select>
+        </section>
+        <section>
+            <label for="q4">A muffin is a cupcake without the icing:</label>
+            <select id="q4" class="question">
+                <option value="">Select an option</option>
+                <option value="5">Strongly Agree</option>
+                <option value="4">Agree</option>
+                <option value="3">Neither agree nor disagree</option>
+                <option value="2">Disagree</option>
+                <option value="1">Strongly Disagree</option>
+            </select>
+        </section>
+        <section>
+            <label for="q5">I'm willing to have a future with you:</label>
+            <select id="q5" class="question">
+                <option value="">Select an option</option>
+                <option value="5">Strongly Agree</option>
+                <option value="4">Agree</option>
+                <option value="3">Neither agree nor disagree</option>
+                <option value="2">Disagree</option>
+                <option value="1">Strongly Disagree</option>
+            </select>
+        </section>
+        
+        <button onclick="calculateCompatibility()">Calculate Compatibility</button>
+        <p id="compatibility"></p>
+        <p id="scoreSummary"></p>
+        <div id="question"></div>
+    </div>
+
+    <script>
+        console.log("Starting Matchmaker");
+
+        // Constants
+        const DESIRED_RESPONSE = [5, 3, 2, 4, 5];
+        const MAX_SCORE = 25;
+
+        function validate() {
+            const questions = document.querySelectorAll('.question');
+            for (let question of questions) {
+                if (question.value === "") {
+                    alert("Please answer all questions before proceeding.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function calculateCompatibility() {
+            console.log("calculateCompatibility()");
+
+            if (!validate()) return; // Stop if validation fails
+
+            let questionResponses = Array.from(document.querySelectorAll('.question')).map(q => Number(q.value));
+
+            let compatibilities = questionResponses.map((response, index) => {
+                return 5 - Math.abs(response - DESIRED_RESPONSE[index]);
+            });
+
+            let totalCompatibility = compatibilities.reduce((sum, score) => sum + score, 0);
+            totalCompatibility = Math.round((totalCompatibility * 100) / MAX_SCORE);
+            console.log("totalCompatibility=" + totalCompatibility);
+
+            let questionSummary = compatibilities.map((score, index) => `Question ${index + 1}: ${score} points.`).join('<br>');
+            document.getElementById("question").innerHTML = questionSummary;
+
+            let message;
+            if (totalCompatibility >= 80) {
+                message = "Let's make our dreams come true together";
+            } else if (totalCompatibility >= 50) {
+                message = "We could work out, but let's take it slow";
+            } else {
+                message = "Let's...not";
+            }
+
+            document.getElementById("compatibility").innerHTML = "Your compatibility is " + totalCompatibility + "%";
+            document.getElementById("scoreSummary").innerHTML = message;
+        }
+    </script>
+</body>
+</html>
