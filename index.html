@@ -118,58 +118,55 @@
         <p>&copy; 2024 Music Playlist Generator</p>
     </footer>
 
-    <script src="script.js"></script> <!-- Link to your JavaScript file -->
+    <script>
+        // Sample playlists for each mood
+        const playlists = {
+            happy: [
+                "Happy Song 1 - Artist A",
+                "Happy Song 2 - Artist B",
+                "Happy Song 3 - Artist C"
+            ],
+            sad: [
+                "Sad Song 1 - Artist D",
+                "Sad Song 2 - Artist E",
+                "Sad Song 3 - Artist F"
+            ],
+            energetic: [
+                "Energetic Song 1 - Artist G",
+                "Energetic Song 2 - Artist H",
+                "Energetic Song 3 - Artist I"
+            ],
+            chill: [
+                "Chill Song 1 - Artist J",
+                "Chill Song 2 - Artist K",
+                "Chill Song 3 - Artist L"
+            ]
+        };
 
-    // script.js
+        // Function to display the playlist
+        function displayPlaylist(mood) {
+            const playlistContainer = document.getElementById("playlist");
+            playlistContainer.innerHTML = ""; // Clear existing playlist
 
-// Sample playlists for each mood
-const playlists = {
-    happy: [
-        "Happy Song 1 - Artist A",
-        "Happy Song 2 - Artist B",
-        "Happy Song 3 - Artist C"
-    ],
-    sad: [
-        "Sad Song 1 - Artist D",
-        "Sad Song 2 - Artist E",
-        "Sad Song 3 - Artist F"
-    ],
-    energetic: [
-        "Energetic Song 1 - Artist G",
-        "Energetic Song 2 - Artist H",
-        "Energetic Song 3 - Artist I"
-    ],
-    chill: [
-        "Chill Song 1 - Artist J",
-        "Chill Song 2 - Artist K",
-        "Chill Song 3 - Artist L"
-    ]
-};
+            const selectedPlaylist = playlists[mood];
 
-// Function to display the playlist
-function displayPlaylist(mood) {
-    const playlistContainer = document.getElementById("playlist");
-    playlistContainer.innerHTML = ""; // Clear existing playlist
+            selectedPlaylist.forEach(song => {
+                const listItem = document.createElement("li");
+                listItem.textContent = song;
+                playlistContainer.appendChild(listItem);
+            });
 
-    const selectedPlaylist = playlists[mood];
+            document.getElementById("playlist-display").classList.remove("hidden");
+        }
 
-    selectedPlaylist.forEach(song => {
-        const listItem = document.createElement("li");
-        listItem.textContent = song;
-        playlistContainer.appendChild(listItem);
-    });
-
-    document.getElementById("playlist-display").classList.remove("hidden");
-}
-
-// Event listeners for mood buttons
-const moodButtons = document.querySelectorAll(".mood-button");
-moodButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        const mood = button.getAttribute("data-mood");
-        displayPlaylist(mood);
-    });
-});
-
+        // Event listeners for mood buttons
+        const moodButtons = document.querySelectorAll(".mood-button");
+        moodButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const mood = button.getAttribute("data-mood");
+                displayPlaylist(mood);
+            });
+        });
+    </script>
 </body>
 </html>
